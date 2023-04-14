@@ -1,3 +1,6 @@
+# zk-protocol in TOKYO
+- make repository
+
 # contract deploy 
 ```shell
 cp .env.example .env 
