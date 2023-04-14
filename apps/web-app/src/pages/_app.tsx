@@ -11,6 +11,7 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import useSemaphore from "../hooks/useSemaphore"
 import theme from "../styles/index"
+import styled from "styled-components"
 
 const { publicRuntimeConfig: env } = getNextConfig()
 
@@ -29,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     function getExplorerLink(address: string) {
-        if(address){
+        if (address) {
             return `https://mumbai.polygonscan.com/address/${address}`
         }
         return ""
@@ -38,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>Semaphore boilerplate</title>
+                <title>ETH TOKYO KuHell-Hunsman</title>
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -46,42 +47,52 @@ export default function App({ Component, pageProps }: AppProps) {
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="theme-color" content="#ebedff" />
             </Head>
+            <Main>
+                <Right>
+                    <Container maxW="lg" flex="1" display="flex" alignItems="center">
+                        <Stack py="8" display="flex" width="100%">
+                            <SemaphoreContext.Provider value={semaphore}>
+                                <LogsContext.Provider
+                                    value={{
+                                        _logs,
+                                        setLogs
+                                    }}
+                                >
+                                    <Component {...pageProps} />
+                                </LogsContext.Provider>
+                            </SemaphoreContext.Provider>
+                        </Stack>
+                    </Container>
 
-            <ChakraProvider theme={theme}>
-                <HStack align="center" justify="center" p="40">
-                    <Link href={getExplorerLink(env.FEEDBACK_CONTRACT_ADDRESS)} isExternal>
-                        <Text>click here and check your transactions! {shortenAddress(env.FEEDBACK_CONTRACT_ADDRESS)}</Text>
-                    </Link>
-                </HStack>
-
-                <Container maxW="lg" flex="1" display="flex" alignItems="center">
-                    <Stack py="8" display="flex" width="100%">
-                        <SemaphoreContext.Provider value={semaphore}>
-                            <LogsContext.Provider
-                                value={{
-                                    _logs,
-                                    setLogs
-                                }}
-                            >
-                                <Component {...pageProps} />
-                            </LogsContext.Provider>
-                        </SemaphoreContext.Provider>
-                    </Stack>
-                </Container>
-
-                <HStack
-                    flexBasis="56px"
-                    borderTop="1px solid #8f9097"
-                    backgroundColor="#DAE0FF"
-                    align="center"
-                    justify="center"
-                    spacing="4"
-                    p="4"
-                >
-                    {_logs.endsWith("...") && <Spinner color="primary.400" />}
-                    <Text fontWeight="bold">{_logs || `Current step: ${router.route}`}</Text>
-                </HStack>
-            </ChakraProvider>
+                    {/* <HStack
+                        flexBasis="56px"
+                        borderTop="1px solid #8f9097"
+                        backgroundColor="#DAE0FF"
+                        align="center"
+                        justify="center"
+                        spacing="4"
+                        p="4"
+                    >
+                        {_logs.endsWith("...") && <Spinner color="primary.400" />}
+                        <Text fontWeight="bold">{_logs || `Current step: ${router.route}`}</Text>
+                    </HStack> */}
+                </Right>
+            </Main>
         </>
     )
 }
+const Main = styled.div`
+    padding: 0 200px;
+    width: 1440px;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    box-sizing: border-box;
+`
+
+const Right = styled.div`
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+`

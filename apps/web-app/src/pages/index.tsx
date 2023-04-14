@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text } from "@chakra-ui/react"
+import { Box, Button, Divider, HStack, Text, background } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useState } from "react"
@@ -6,21 +6,20 @@ import Stepper from "../components/Stepper"
 import LogsContext from "../context/LogsContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import {providers} from "ethers";
+import styled from "styled-components"
 
 export default function IdentitiesPage() {
     const router = useRouter()
     const { setLogs } = useContext(LogsContext)
     const [_identity, setIdentity] = useState<Identity>()
+    const [userName, setUserName] = useState<string>("")
 
     useEffect(() => {
+        setUserName("")
         const identityString = localStorage.getItem("identity")
-
         if (identityString) {
             const identity = new Identity(identityString)
-
             setIdentity(identity)
-
             setLogs("Your Semaphore identity was retrieved from the browser cache 👌🏽")
         } else {
             setLogs("Create your Semaphore identity 👆🏽")
@@ -38,37 +37,28 @@ export default function IdentitiesPage() {
         // _trapdoor
         //     :
         //     241098150834869025493403340272538519414447710532970408606671023771831910864n
-
         setIdentity(identity)
-
         localStorage.setItem("identity", identity.toString())
         // ["0x8874eb70a141fe0848400ea232048dc373afb6f0a8db44ceb2efab6b9a41d0","0xe38dcd25b7a96cd6bfc912b2383e35f866ffad4577baa6950be614bbb94aad"]
-
         setLogs("Your new Semaphore identity was just created 🎉")
     }, [])
 
+    /** 이룸 입력 */
+    const chageInput = (event) => {
+        setUserName(event.target.value)
+    }
+
     return (
         <>
-            {/*<Heading as="h2" size="xl">*/}
-            {/*    Identities*/}
-            {/*</Heading>*/}
-
-            {/*<Text pt="2" fontSize="md">*/}
-            {/*    Users interact with the protocol using a Semaphore{" "}*/}
-            {/*    <Link href="https://semaphore.appliedzkp.org/docs/guides/identities" color="primary.500" isExternal>*/}
-            {/*        identity*/}
-            {/*    </Link>{" "}*/}
-            {/*    (similar to Ethereum accounts). It contains three values:*/}
-            {/*</Text>*/}
-            {/*<OrderedList pl="20px" pt="5px" spacing="3">*/}
-            {/*    <ListItem>Trapdoor: private, known only by user</ListItem>*/}
-            {/*    <ListItem>Nullifier: private, known only by user</ListItem>*/}
-            {/*    <ListItem>Commitment: public</ListItem>*/}
-            {/*</OrderedList>*/}
-
-            {/*<Divider pt="5" borderColor="gray.500" />*/}
-
-            <HStack pt="5" justify="space-between">
+            <MainDiv>
+                <NameInput
+                    type="text"
+                    value={userName}
+                    onChange={chageInput}
+                    placeholder="Please enter an anonymous nickname"
+                />
+            </MainDiv>
+            {/* <HStack pt="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
                     Identity
                 </Text>
@@ -77,9 +67,13 @@ export default function IdentitiesPage() {
                         New
                     </Button>
                 )}
-            </HStack>
+            </HStack> */}
 
-            {_identity ? (
+            {/* <div style={{ backgroundColor: "#222" }}>
+                <input />
+                <button />
+            </div> */}
+            {/* {_identity ? (
                 <Box py="6" whiteSpace="nowrap">
                     <Box p="5" borderWidth={1} borderColor="gray.500" borderRadius="4px">
                         <Text textOverflow="ellipsis" overflow="hidden">
@@ -107,7 +101,7 @@ export default function IdentitiesPage() {
                         Create identity
                     </Button>
                 </Box>
-            )}
+            )} */}
 
             <Divider pt="3" borderColor="gray" />
 
@@ -115,3 +109,19 @@ export default function IdentitiesPage() {
         </>
     )
 }
+
+const MainDiv = styled.div`
+    width: 100%;
+    justify-content: flex-end;
+    height: auto;
+`
+
+const NameInput = styled.input`
+    padding: 15px;
+    width: 100%;
+    height: auto;
+    font-size: 24px;
+    border: 1px solid #222;
+    border-radius: 10px;
+    box-sizing: border-box;
+`

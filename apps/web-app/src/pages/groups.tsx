@@ -1,4 +1,4 @@
-import {ethers} from "ethers";
+import { ethers } from "ethers"
 import { Box, Button, Divider, Heading, HStack, Link, Text, useBoolean, VStack } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import getNextConfig from "next/config"
@@ -10,13 +10,13 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import {providers} from "ethers";
+import { providers } from "ethers"
 
 const { publicRuntimeConfig: env } = getNextConfig()
 
 declare global {
     interface Window {
-        ethereum?: any;
+        ethereum?: any
     }
 }
 
@@ -53,8 +53,8 @@ export default function GroupsPage() {
         setLogs(`Joining the Feedback group...`)
 
         try {
-            if(window.ethereum){
-                await window.ethereum.enable();
+            if (window.ethereum) {
+                await window.ethereum.enable()
                 const provider = new providers.Web3Provider(window.ethereum)
                 const signer = provider.getSigner()
                 const contract = new ethers.Contract(env.FEEDBACK_CONTRACT_ADDRESS, Feedback.abi, signer)
@@ -87,47 +87,21 @@ export default function GroupsPage() {
                 are binary incremental Merkle trees in which each leaf contains an identity commitment for a user.
                 Groups can be abstracted to represent events, polls, or organizations.
             </Text>
-
-            <Divider pt="5" borderColor="gray.500" />
-
-            <HStack py="5" justify="space-between">
-                <Text fontWeight="bold" fontSize="lg">
-                    Feedback users ({_users.length})
-                </Text>
-                <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={refreshUsers}>
-                    Refresh
-                </Button>
-            </HStack>
-
-            <Box pb="5">
+            <Box pb="5" pt="10">
                 <Button
                     w="100%"
                     fontWeight="bold"
-                    justifyContent="left"
+                    justifyContent="center"
                     colorScheme="primary"
                     px="4"
                     onClick={joinGroup}
                     isDisabled={_loading || !_identity || userHasJoined(_identity)}
-                    leftIcon={<IconAddCircleFill />}
+                    // leftIcon={<IconAddCircleFill />}
                 >
                     Join group
                 </Button>
             </Box>
-
-            {_users.length > 0 && (
-                <VStack spacing="3" px="3" align="left" maxHeight="300px" overflowY="scroll">
-                    {_users.map((user, i) => (
-                        <HStack key={i} p="3" borderWidth={1} whiteSpace="nowrap">
-                            <Text textOverflow="ellipsis" overflow="hidden">
-                                {user}
-                            </Text>
-                        </HStack>
-                    ))}
-                </VStack>
-            )}
-
-            <Divider pt="6" borderColor="gray" />
-
+            <Divider pt="5" borderColor="gray.500" />
             <Stepper
                 step={2}
                 onPrevClick={() => router.push("/")}

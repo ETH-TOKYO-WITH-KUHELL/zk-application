@@ -1,6 +1,7 @@
 import { Box, Button, HStack, Text } from "@chakra-ui/react"
 import IconChevronLeft from "../icons/IconChevronLeft"
 import IconChevronRight from "../icons/IconChevronRight"
+import styled from "styled-components"
 
 export type StepperProps = {
     step: number
@@ -40,6 +41,15 @@ export default function Stepper({ step, onPrevClick, onNextClick }: StepperProps
                     variant="link"
                     disabled={!onNextClick}
                     onClick={onNextClick || undefined}
+                    style={{
+                        backgroundColor: "#d79330",
+                        padding: 20,
+                        fontWeight: 700,
+                        border: "1px solid #fff",
+                        borderRadius: 10,
+                        alignContent: "center",
+                        justifyContent: "center"
+                    }}
                 >
                     Next
                 </Button>
