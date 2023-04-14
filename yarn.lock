@@ -4033,6 +4033,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openzeppelin/contracts@npm:^4.8.2":
+  version: 4.8.3
+  resolution: "@openzeppelin/contracts@npm:4.8.3"
+  checksum: aea130d38d46840c5cbe3adbaa9a7ac645e4bd66ad3f3baf2fa78588c408d1a686170b3408c9e2e5e05530fba22ecdc00d7efb6b27852a8b29f91accbc0af255
+  languageName: node
+  linkType: hard
+
 "@popperjs/core@npm:^2.9.3":
   version: 2.11.5
   resolution: "@popperjs/core@npm:2.11.5"
@@ -6675,6 +6682,7 @@ __metadata:
     "@nomicfoundation/hardhat-chai-matchers": ^1.0.5
     "@nomiclabs/hardhat-ethers": ^2.0.0
     "@nomiclabs/hardhat-etherscan": ^3.1.7
+    "@openzeppelin/contracts": ^4.8.2
     "@semaphore-protocol/contracts": 3.4.0
     "@semaphore-protocol/group": 3.4.0
     "@semaphore-protocol/hardhat": 3.4.0
