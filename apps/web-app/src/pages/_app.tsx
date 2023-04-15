@@ -56,9 +56,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 </HStack>
                 <Stack>
                     <Container border={"1px solid #222"} p={10} borderRadius={10}>
-                        여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯
-                        여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯
-                        여기에 설명 하면 될 듯
+                        This is a customized project that allows only address that has NFT issued by group (society,
+                        company, etc.) and generate feedback afterwards. we added the login feature with the nickname
+                        entered when someone joined the group. (Caution) Login must be failed if you enter a different
+                        nickname. so you have to keep in mind the nickname that when the "joinGroup" transaction
+                        occurred
                     </Container>
                 </Stack>
 

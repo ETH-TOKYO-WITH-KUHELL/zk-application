@@ -36,7 +36,7 @@ export default function IdentitiesPage() {
         if (identityString) {
             const identity = new Identity(identityString)
             setIdentity(identity)
-            setLogs("가입되어 있으면 로그인 아니면 회원가입을 해주세요.")
+            setLogs("If you are registered, please login or register as a member of our group")
         } else {
             setLogs("Create your Semaphore identity 👆🏽")
         }
