@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>KuHell - Hunsman</title>
+                <title>ETH TOKYO ZK TEAM</title>
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -51,7 +51,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 {/* check transactions */}
                 <HStack align="center" justify="center" p="40" flexDirection={"column"}>
                     <Button onClick={() => router.push("/")}>
-                        <Text>KuHell - Hunsman</Text>
+                        <Text>ETH TOKYO ZK TEAM</Text>
                     </Button>
                 </HStack>
                 <Stack>

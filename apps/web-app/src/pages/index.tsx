@@ -36,7 +36,7 @@ export default function IdentitiesPage() {
         if (identityString) {
             const identity = new Identity(identityString)
             setIdentity(identity)
-            setLogs("Your Semaphore identity was retrieved from the browser cache 👌🏽")
+            setLogs("가입되어 있으면 로그인 아니면 회원가입을 해주세요.")
         } else {
             setLogs("Create your Semaphore identity 👆🏽")
         }
