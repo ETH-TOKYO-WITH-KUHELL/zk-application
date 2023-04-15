@@ -1,14 +1,12 @@
 # zk-protocol in TOKYO
-- make repository
 
-# contract deploy 
+## how to deploy feedback contract on Polygon Mumbai Test Network  
 ```shell
 cp .env.example .env 
 yarn
 cd apps/contract
 yarn
-npx @semaphore-protocol/cli get-group <group-id>
-yarn deploy --semaphore <semaphore-contract-address> --group 50 --network <network>
+yarn deploy --semaphore 0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6 --group 3 --network mumbai
 ```
 - `$ cp .env.example .env`
   - copy example env file for deploy Feedback contracts
@@ -20,7 +18,15 @@ yarn deploy --semaphore <semaphore-contract-address> --group 50 --network <netwo
 ```shell
 yarn copy:contract-artifacts
 yarn dev
-npx @semaphore-protocol/cli get-group <group-id>
 ```
-- `$ npx @semaphore-protocol/cli get-group <group-id>`
-  - after made feedback, check results whether feedbacks are created or not
+
+# reference 
+## our demo site
+- https://ethtokyozkprotocoldev.netlify.app/
+
+## deploy Semephore contract transaction history
+- https://mumbai.polygonscan.com/address/0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6
+- `0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6`
+## deploy Feedback contract transaction history
+- https://mumbai.polygonscan.com/address/0x22fff678d6560c69Fd342A89eC47021C9a5D7A7f
+- `0x22fff678d6560c69Fd342A89eC47021C9a5D7A7f`
