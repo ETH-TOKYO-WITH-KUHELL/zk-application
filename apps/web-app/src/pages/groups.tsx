@@ -77,8 +77,6 @@ export default function GroupsPage() {
         setLoading.off()
     }, [_identity])
 
-    console.log("-----------", _name)
-
     const userHasJoined = useCallback((identity: Identity) => _users.includes(identity.commitment.toString()), [_users])
 
     return (
