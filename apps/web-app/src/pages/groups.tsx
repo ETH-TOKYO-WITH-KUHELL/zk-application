@@ -1,4 +1,4 @@
-import {ethers} from "ethers";
+import { ethers } from "ethers"
 import { Box, Button, Divider, Heading, HStack, Link, Text, useBoolean, VStack } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import getNextConfig from "next/config"
@@ -10,13 +10,15 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import {providers} from "ethers";
+import { providers } from "ethers"
+import { formatBytes32String } from "ethers/lib/utils"
+import NameContext from "../context/NameContext"
 
 const { publicRuntimeConfig: env } = getNextConfig()
 
 declare global {
     interface Window {
-        ethereum?: any;
+        ethereum?: any
     }
 }
 
@@ -26,6 +28,7 @@ export default function GroupsPage() {
     const { _users, refreshUsers, addUser } = useContext(SemaphoreContext)
     const [_loading, setLoading] = useBoolean()
     const [_identity, setIdentity] = useState<Identity>()
+    const { _name } = useContext(NameContext)
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
@@ -53,12 +56,16 @@ export default function GroupsPage() {
         setLogs(`Joining the Feedback group...`)
 
         try {
-            if(window.ethereum){
-                await window.ethereum.enable();
+            if (window.ethereum) {
+                await window.ethereum.enable()
                 const provider = new providers.Web3Provider(window.ethereum)
                 const signer = provider.getSigner()
                 const contract = new ethers.Contract(env.FEEDBACK_CONTRACT_ADDRESS, Feedback.abi, signer)
-                const transaction = await contract.joinGroup(_identity.commitment.toString())
+                const transaction = await contract.joinGroup(
+                    _identity.commitment.toString(),
+                    formatBytes32String(_name)
+                )
+                // console.log("----------------", transaction)
                 await transaction.wait()
                 addUser(_identity.commitment.toString())
                 setLogs(`You joined the Feedback group event 🎉 Share your feedback anonymously!`)
@@ -70,6 +77,8 @@ export default function GroupsPage() {
 
         setLoading.off()
     }, [_identity])
+
+    console.log("-----------", _name)
 
     const userHasJoined = useCallback((identity: Identity) => _users.includes(identity.commitment.toString()), [_users])
 

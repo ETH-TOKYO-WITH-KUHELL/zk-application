@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text } from "@chakra-ui/react"
+import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text, Input } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useState } from "react"
@@ -6,12 +6,15 @@ import Stepper from "../components/Stepper"
 import LogsContext from "../context/LogsContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import {providers} from "ethers";
+// import { providers } from "ethers"
+import NameContext from "../context/NameContext"
 
 export default function IdentitiesPage() {
     const router = useRouter()
     const { setLogs } = useContext(LogsContext)
     const [_identity, setIdentity] = useState<Identity>()
+    const { setName } = useContext(NameContext)
+    // const { _name } = useContext(NameContext)
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
@@ -47,27 +50,15 @@ export default function IdentitiesPage() {
         setLogs("Your new Semaphore identity was just created 🎉")
     }, [])
 
+    const [nameInput, setNameInput] = useState("")
+    const handleChange = (event) => setNameInput(event.target.value)
+
+    useEffect(() => {
+        setName(nameInput)
+    }, [nameInput])
+
     return (
         <>
-            {/*<Heading as="h2" size="xl">*/}
-            {/*    Identities*/}
-            {/*</Heading>*/}
-
-            {/*<Text pt="2" fontSize="md">*/}
-            {/*    Users interact with the protocol using a Semaphore{" "}*/}
-            {/*    <Link href="https://semaphore.appliedzkp.org/docs/guides/identities" color="primary.500" isExternal>*/}
-            {/*        identity*/}
-            {/*    </Link>{" "}*/}
-            {/*    (similar to Ethereum accounts). It contains three values:*/}
-            {/*</Text>*/}
-            {/*<OrderedList pl="20px" pt="5px" spacing="3">*/}
-            {/*    <ListItem>Trapdoor: private, known only by user</ListItem>*/}
-            {/*    <ListItem>Nullifier: private, known only by user</ListItem>*/}
-            {/*    <ListItem>Commitment: public</ListItem>*/}
-            {/*</OrderedList>*/}
-
-            {/*<Divider pt="5" borderColor="gray.500" />*/}
-
             <HStack pt="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
                     Identity
@@ -92,6 +83,7 @@ export default function IdentitiesPage() {
                             Commitment: {_identity.commitment.toString()}
                         </Text>
                     </Box>
+                    <Input mt={10} placeholder="Please enter your nickname" value={nameInput} onChange={handleChange} />
                 </Box>
             ) : (
                 <Box py="6">

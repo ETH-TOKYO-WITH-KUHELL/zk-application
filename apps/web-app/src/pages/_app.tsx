@@ -11,6 +11,7 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import useSemaphore from "../hooks/useSemaphore"
 import theme from "../styles/index"
+import NameContext from "../context/NameContext"
 
 const { publicRuntimeConfig: env } = getNextConfig()
 
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter()
     const semaphore = useSemaphore()
     const [_logs, setLogs] = useState<string>("")
+    const [_name, setName] = useState<string>("")
 
     useEffect(() => {
         semaphore.refreshUsers()
@@ -29,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     function getExplorerLink(address: string) {
-        if(address){
+        if (address) {
             return `https://mumbai.polygonscan.com/address/${address}`
         }
         return ""
@@ -38,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>Semaphore boilerplate</title>
+                <title>KuHell - Hunsman</title>
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -50,7 +52,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <ChakraProvider theme={theme}>
                 <HStack align="center" justify="center" p="40">
                     <Link href={getExplorerLink(env.FEEDBACK_CONTRACT_ADDRESS)} isExternal>
-                        <Text>click here and check your transactions! {shortenAddress(env.FEEDBACK_CONTRACT_ADDRESS)}</Text>
+                        <Text>
+                            click here and check your transactions! {shortenAddress(env.FEEDBACK_CONTRACT_ADDRESS)}
+                        </Text>
                     </Link>
                 </HStack>
 
@@ -63,7 +67,9 @@ export default function App({ Component, pageProps }: AppProps) {
                                     setLogs
                                 }}
                             >
-                                <Component {...pageProps} />
+                                <NameContext.Provider value={{ _name, setName }}>
+                                    <Component {...pageProps} />
+                                </NameContext.Provider>
                             </LogsContext.Provider>
                         </SemaphoreContext.Provider>
                     </Stack>
