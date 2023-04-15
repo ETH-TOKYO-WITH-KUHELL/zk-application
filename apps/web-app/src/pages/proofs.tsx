@@ -1,8 +1,8 @@
-import { Box, Button, Divider, Heading, HStack, Link, Text, useBoolean, VStack } from "@chakra-ui/react"
+import { Box, Button, Divider, HStack, Text, useBoolean, VStack } from "@chakra-ui/react"
 import { Group } from "@semaphore-protocol/group"
 import { Identity } from "@semaphore-protocol/identity"
 import { generateProof } from "@semaphore-protocol/proof"
-import {BigNumber, ethers, providers, utils} from "ethers"
+import { BigNumber, ethers, providers, utils } from "ethers"
 import getNextConfig from "next/config"
 import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useState } from "react"
@@ -65,8 +65,8 @@ export default function ProofsPage() {
                     signal
                 )
 
-                if(window.ethereum){
-                    await window.ethereum.enable();
+                if (window.ethereum) {
+                    await window.ethereum.enable()
                     const provider = new providers.Web3Provider(window.ethereum)
                     await provider.send("eth_requestAccounts", [])
                     const signer = provider.getSigner()
@@ -76,7 +76,6 @@ export default function ProofsPage() {
                     addFeedback(feedback)
                     setLogs(`Your feedback was posted 🎉`)
                 }
-
             } catch (error) {
                 console.error(error)
                 setLogs("try catch error!!!")
@@ -88,21 +87,6 @@ export default function ProofsPage() {
 
     return (
         <>
-            {/*<Heading as="h2" size="xl">*/}
-            {/*    Proofs*/}
-            {/*</Heading>*/}
-
-            {/*<Text pt="2" fontSize="md">*/}
-            {/*    Semaphore members can anonymously{" "}*/}
-            {/*    <Link href="https://semaphore.appliedzkp.org/docs/guides/proofs" color="primary.500" isExternal>*/}
-            {/*        prove*/}
-            {/*    </Link>{" "}*/}
-            {/*    that they are part of a group and that they are generating their own signals. Signals could be anonymous*/}
-            {/*    votes, leaks, reviews, or feedback.*/}
-            {/*</Text>*/}
-
-            {/*<Divider pt="5" borderColor="gray.500" />*/}
-
             <HStack py="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
                     Feedback signals ({_feedback.length})

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text, Input } from "@chakra-ui/react"
+import { Box, Button, Divider, HStack, Text, Input } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useState } from "react"
@@ -6,7 +6,6 @@ import Stepper from "../components/Stepper"
 import LogsContext from "../context/LogsContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-// import { providers } from "ethers"
 import NameContext from "../context/NameContext"
 
 export default function IdentitiesPage() {

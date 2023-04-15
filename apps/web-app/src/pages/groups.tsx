@@ -1,4 +1,4 @@
-import { ethers } from "ethers"
+import { ethers, providers } from "ethers"
 import { Box, Button, Divider, Heading, HStack, Link, Text, useBoolean, VStack } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import getNextConfig from "next/config"
@@ -10,7 +10,6 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import { providers } from "ethers"
 import { formatBytes32String } from "ethers/lib/utils"
 import NameContext from "../context/NameContext"
 
