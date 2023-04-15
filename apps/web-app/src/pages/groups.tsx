@@ -1,4 +1,4 @@
-import { ethers } from "ethers"
+import { ethers, providers } from "ethers"
 import { Box, Button, Divider, Heading, HStack, Link, Text, useBoolean, VStack } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import getNextConfig from "next/config"
@@ -10,7 +10,6 @@ import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-import { providers } from "ethers"
 import { formatBytes32String } from "ethers/lib/utils"
 import NameContext from "../context/NameContext"
 
@@ -32,12 +31,10 @@ export default function GroupsPage() {
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
-
         if (!identityString) {
             router.push("/")
             return
         }
-
         setIdentity(new Identity(identityString))
     }, [])
 
@@ -51,10 +48,8 @@ export default function GroupsPage() {
         if (!_identity) {
             return
         }
-
         setLoading.on()
         setLogs(`Joining the Feedback group...`)
-
         try {
             if (window.ethereum) {
                 await window.ethereum.enable()
@@ -74,11 +69,8 @@ export default function GroupsPage() {
             // revert 처리된 경우, 트랜잭션 실행에 실패하였습니다.
             setLogs("Status: Fail with error 'you are not member of group!!!'")
         }
-
         setLoading.off()
     }, [_identity])
-
-    console.log("-----------", _name)
 
     const userHasJoined = useCallback((identity: Identity) => _users.includes(identity.commitment.toString()), [_users])
 

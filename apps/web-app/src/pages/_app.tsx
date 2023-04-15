@@ -1,12 +1,10 @@
-import { ChakraProvider, Container, HStack, Icon, IconButton, Link, Spinner, Stack, Text } from "@chakra-ui/react"
+import { ChakraProvider, Container, HStack, Link, Spinner, Stack, Text } from "@chakra-ui/react"
 import "@fontsource/inter/400.css"
-import { Network } from "@semaphore-protocol/data"
 import type { AppProps } from "next/app"
 import getNextConfig from "next/config"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { FaGithub } from "react-icons/fa"
 import LogsContext from "../context/LogsContext"
 import SemaphoreContext from "../context/SemaphoreContext"
 import useSemaphore from "../hooks/useSemaphore"
@@ -21,11 +19,6 @@ export default function App({ Component, pageProps }: AppProps) {
     const [_logs, setLogs] = useState<string>("")
     const [_name, setName] = useState<string>("")
 
-    useEffect(() => {
-        semaphore.refreshUsers()
-        semaphore.refreshFeedback()
-    }, [])
-
     function shortenAddress(address: string) {
         return `${address.slice(0, 6)}...${address.slice(-4)}`
     }
@@ -36,6 +29,11 @@ export default function App({ Component, pageProps }: AppProps) {
         }
         return ""
     }
+
+    useEffect(() => {
+        semaphore.refreshUsers()
+        semaphore.refreshFeedback()
+    }, [])
 
     return (
         <>
@@ -50,6 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
 
             <ChakraProvider theme={theme}>
+                {/* check transactions */}
                 <HStack align="center" justify="center" p="40">
                     <Link href={getExplorerLink(env.FEEDBACK_CONTRACT_ADDRESS)} isExternal>
                         <Text>
@@ -58,6 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     </Link>
                 </HStack>
 
+                {/* Content */}
                 <Container maxW="lg" flex="1" display="flex" alignItems="center">
                     <Stack py="8" display="flex" width="100%">
                         <SemaphoreContext.Provider value={semaphore}>
@@ -75,6 +75,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     </Stack>
                 </Container>
 
+                {/* 로딩 및 로그 표시 */}
                 <HStack
                     flexBasis="56px"
                     borderTop="1px solid #8f9097"

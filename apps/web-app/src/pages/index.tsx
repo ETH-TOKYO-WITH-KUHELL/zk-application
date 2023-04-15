@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text, Input } from "@chakra-ui/react"
+import { Box, Button, Divider, HStack, Text, Input } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import { useRouter } from "next/router"
 import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react"
@@ -6,24 +6,36 @@ import Stepper from "../components/Stepper"
 import LogsContext from "../context/LogsContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
 import IconRefreshLine from "../icons/IconRefreshLine"
-// import { providers } from "ethers"
 import NameContext from "../context/NameContext"
+import { ethers, providers } from "ethers"
+import { formatBytes32String } from "ethers/lib/utils"
+import Feedback from "../../contract-artifacts/Feedback.json"
+import getNextConfig from "next/config"
+
+const { publicRuntimeConfig: env } = getNextConfig()
+
+declare global {
+    interface Window {
+        ethereum?: any
+    }
+}
 
 export default function IdentitiesPage() {
     const router = useRouter()
     const { setLogs } = useContext(LogsContext)
     const [_identity, setIdentity] = useState<Identity>()
     const { setName } = useContext(NameContext)
-    // const { _name } = useContext(NameContext)
+    const [nameInput, setNameInput] = useState("")
+    const [pageStep, setPageStep] = useState(false)
+    const [loginLoading, stLoginLoading] = useState(false)
+    const { _name } = useContext(NameContext)
+    const [signupView, setSignupView] = useState(false)
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
-
         if (identityString) {
             const identity = new Identity(identityString)
-
             setIdentity(identity)
-
             setLogs("Your Semaphore identity was retrieved from the browser cache 👌🏽")
         } else {
             setLogs("Create your Semaphore identity 👆🏽")
@@ -32,34 +44,59 @@ export default function IdentitiesPage() {
 
     const createIdentity = useCallback(async () => {
         const identity = new Identity()
-        // _commitment
-        //     :
-        //     17309406718076004087796517097319487730078209309609031003444984472401410244026n
-        // _nullifier
-        //     :
-        //     402052960700766359146757143149586941389673005083776943427944240592736307885n
-        // _trapdoor
-        //     :
-        //     241098150834869025493403340272538519414447710532970408606671023771831910864n
-
         setIdentity(identity)
-
         localStorage.setItem("identity", identity.toString())
-        // ["0x8874eb70a141fe0848400ea232048dc373afb6f0a8db44ceb2efab6b9a41d0","0xe38dcd25b7a96cd6bfc912b2383e35f866ffad4577baa6950be614bbb94aad"]
-
         setLogs("Your new Semaphore identity was just created 🎉")
     }, [])
-
-    const [nameInput, setNameInput] = useState("")
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setNameInput(event.target.value)
-    }
 
     useEffect(() => {
         setName(nameInput)
     }, [nameInput])
 
-    return (
+    /** Login Fn */
+    const LoginBtn = async () => {
+        stLoginLoading(true)
+        try {
+            if (window.ethereum) {
+                await window.ethereum.enable()
+                const provider = new providers.Web3Provider(window.ethereum)
+                const signer = provider.getSigner()
+                const contract = new ethers.Contract(env.FEEDBACK_CONTRACT_ADDRESS, Feedback.abi, signer)
+                await contract.getUserInfo(formatBytes32String(_name))
+                stLoginLoading(false)
+                router.push("/proofs")
+                setLogs(`You joined the Feedback group event 🎉 Share your feedback anonymously!`)
+            }
+        } catch (err) {
+            stLoginLoading(false)
+            setSignupView(true)
+            setLogs("Status: Fail with error 'you are not member of group!!!'")
+        }
+    }
+
+    /** Signup Fn */
+    const Signup = () => {
+        setPageStep(true)
+    }
+
+    /** Input setName Fn */
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setNameInput(event.target.value)
+    }
+
+    return !pageStep ? (
+        <>
+            <Input mb={10} placeholder="Please enter your nickname" value={nameInput} onChange={handleChange} />
+            <Button isLoading={loginLoading} variant="outline" onClick={() => LoginBtn()}>
+                login
+            </Button>
+            {signupView && (
+                <Button variant="line" onClick={() => Signup()}>
+                    signup
+                </Button>
+            )}
+        </>
+    ) : (
         <>
             <HStack pt="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
