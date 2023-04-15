@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Heading, HStack, Link, ListItem, OrderedList, Text, Input } from "@chakra-ui/react"
 import { Identity } from "@semaphore-protocol/identity"
 import { useRouter } from "next/router"
-import { useCallback, useContext, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react"
 import Stepper from "../components/Stepper"
 import LogsContext from "../context/LogsContext"
 import IconAddCircleFill from "../icons/IconAddCircleFill"
@@ -51,7 +51,9 @@ export default function IdentitiesPage() {
     }, [])
 
     const [nameInput, setNameInput] = useState("")
-    const handleChange = (event) => setNameInput(event.target.value)
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setNameInput(event.target.value)
+    }
 
     useEffect(() => {
         setName(nameInput)
