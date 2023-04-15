@@ -1,4 +1,7 @@
-# zk-protocol in TOKYO
+# ETHTOKYOZKTEAM
+## zk-protocol-semephore
+- nft contract repository that using this project
+  - https://github.com/ETH-TOKYO-WITH-KUHELL/nft-semaphore
 
 ## how to deploy feedback contract on Polygon Mumbai Test Network  
 ```shell
