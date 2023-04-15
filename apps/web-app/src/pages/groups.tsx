@@ -76,21 +76,6 @@ export default function GroupsPage() {
 
     return (
         <>
-            <Heading as="h2" size="xl">
-                Groups
-            </Heading>
-
-            <Text pt="2" fontSize="md">
-                Semaphore{" "}
-                <Link href="https://semaphore.appliedzkp.org/docs/guides/groups" color="primary.500" isExternal>
-                    groups
-                </Link>{" "}
-                are binary incremental Merkle trees in which each leaf contains an identity commitment for a user.
-                Groups can be abstracted to represent events, polls, or organizations.
-            </Text>
-
-            <Divider pt="5" borderColor="gray.500" />
-
             <HStack py="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
                     Feedback users ({_users.length})

@@ -90,11 +90,9 @@ export default function IdentitiesPage() {
             <Button isLoading={loginLoading} variant="outline" onClick={() => LoginBtn()}>
                 login
             </Button>
-            {signupView && (
-                <Button variant="line" onClick={() => Signup()}>
-                    signup
-                </Button>
-            )}
+            <Button variant="line" onClick={() => Signup()}>
+                signup
+            </Button>
         </>
     ) : (
         <>

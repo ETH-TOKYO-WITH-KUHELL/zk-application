@@ -1,4 +1,4 @@
-import { ChakraProvider, Container, HStack, Link, Spinner, Stack, Text } from "@chakra-ui/react"
+import { Button, ChakraProvider, Container, HStack, Link, Spinner, Stack, Text } from "@chakra-ui/react"
 import "@fontsource/inter/400.css"
 import type { AppProps } from "next/app"
 import getNextConfig from "next/config"
@@ -49,13 +49,18 @@ export default function App({ Component, pageProps }: AppProps) {
 
             <ChakraProvider theme={theme}>
                 {/* check transactions */}
-                <HStack align="center" justify="center" p="40">
-                    <Link href={getExplorerLink(env.FEEDBACK_CONTRACT_ADDRESS)} isExternal>
-                        <Text>
-                            click here and check your transactions! {shortenAddress(env.FEEDBACK_CONTRACT_ADDRESS)}
-                        </Text>
-                    </Link>
+                <HStack align="center" justify="center" p="40" flexDirection={"column"}>
+                    <Button onClick={() => router.push("/")}>
+                        <Text>KuHell - Hunsman</Text>
+                    </Button>
                 </HStack>
+                <Stack>
+                    <Container border={"1px solid #222"} p={10} borderRadius={10}>
+                        여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯
+                        여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯 여기에 설명 하면 될 듯
+                        여기에 설명 하면 될 듯
+                    </Container>
+                </Stack>
 
                 {/* Content */}
                 <Container maxW="lg" flex="1" display="flex" alignItems="center">
