@@ -31,12 +31,10 @@ export default function GroupsPage() {
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
-
         if (!identityString) {
             router.push("/")
             return
         }
-
         setIdentity(new Identity(identityString))
     }, [])
 
@@ -50,10 +48,8 @@ export default function GroupsPage() {
         if (!_identity) {
             return
         }
-
         setLoading.on()
         setLogs(`Joining the Feedback group...`)
-
         try {
             if (window.ethereum) {
                 await window.ethereum.enable()
@@ -73,7 +69,6 @@ export default function GroupsPage() {
             // revert 처리된 경우, 트랜잭션 실행에 실패하였습니다.
             setLogs("Status: Fail with error 'you are not member of group!!!'")
         }
-
         setLoading.off()
     }, [_identity])
 

@@ -29,6 +29,7 @@ export default function IdentitiesPage() {
     const [pageStep, setPageStep] = useState(false)
     const [loginLoading, stLoginLoading] = useState(false)
     const { _name } = useContext(NameContext)
+    const [signupView, setSignupView] = useState(false)
 
     /** Input setName Fn */
     const handleChange = (event) => setNameInput(event.target.value)
@@ -42,24 +43,21 @@ export default function IdentitiesPage() {
                 const provider = new providers.Web3Provider(window.ethereum)
                 const signer = provider.getSigner()
                 const contract = new ethers.Contract(env.FEEDBACK_CONTRACT_ADDRESS, Feedback.abi, signer)
-                console.log("1")
-                const transaction = await contract.getUserInfo(formatBytes32String(_name))
-                console.log("2", transaction.toString())
-                // const res = await transaction.wait()
-                console.log("3")
-                // console.log("transaction: ", res)
-                console.log("로그인 성공!")
+                await contract.getUserInfo(formatBytes32String(_name))
+                stLoginLoading(false)
+                router.push("/proofs")
                 setLogs(`You joined the Feedback group event 🎉 Share your feedback anonymously!`)
             }
         } catch (err) {
-            // revert 처리된 경우, 트랜잭션 실행에 실패하였습니다.
-            console.log("로그인 실패!")
+            stLoginLoading(false)
+            setSignupView(true)
             setLogs("Status: Fail with error 'you are not member of group!!!'")
         }
-
-        // 성공하면 로딩 제거 후 다음 스텝
-        // stLoginLoading(false)
         // setPageStep(true)
+    }
+    /** Signup Fn */
+    const Signup = () => {
+        setPageStep(true)
     }
 
     useEffect(() => {
@@ -90,6 +88,11 @@ export default function IdentitiesPage() {
             <Button isLoading={loginLoading} variant="outline" onClick={() => LoginBtn()}>
                 login
             </Button>
+            {signupView && (
+                <Button variant="line" onClick={() => Signup()}>
+                    signup
+                </Button>
+            )}
         </>
     ) : (
         <>
@@ -117,6 +120,7 @@ export default function IdentitiesPage() {
                             Commitment: {_identity.commitment.toString()}
                         </Text>
                     </Box>
+                    <Input mt={10} placeholder="Please enter your nickname" value={nameInput} onChange={handleChange} />
                 </Box>
             ) : (
                 <Box py="6">
