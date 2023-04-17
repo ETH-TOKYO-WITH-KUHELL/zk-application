@@ -1,4 +1,8 @@
 # ETHTOKYOZKTEAM
+
+## our project showcase
+- https://ethglobal.com/showcase/ethtokyozkproject-ghmin
+
 ## zk-protocol-semephore
 - nft contract repository that using this project
   - https://github.com/ETH-TOKYO-WITH-KUHELL/nft-semaphore
