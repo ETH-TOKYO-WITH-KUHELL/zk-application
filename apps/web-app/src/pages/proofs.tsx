@@ -78,7 +78,7 @@ export default function ProofsPage() {
                 }
             } catch (error) {
                 console.error(error)
-                setLogs("try catch error!!!")
+                setLogs("you can make a feedback once!")
             } finally {
                 setLoading.off()
             }
